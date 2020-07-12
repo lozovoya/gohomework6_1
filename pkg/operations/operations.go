@@ -2,20 +2,15 @@ package operations
 
 import (
 	"github.com/lozovoya/gohomework6_1/pkg/card"
-	"time"
+	"sort"
 )
 
-func (s *card.Service)(cardnumber string) ([]*card.Transaction, error) {
-	for _, cards := range s.Cards {
-		if cards.Number == cardnumber {
-			transaction := &Transaction{
-				Id:     0,
-				Amount: amount,
-				Mcc:    mcc,
-				TrTime: time.Now().Unix(),
-			}
-			cards.Transactions = append(cards.Transactions, transaction)
+func SortTransactions(service *card.Service, cardnumber string) error {
+	for _, card := range service.Cards {
+		if card.Number == cardnumber {
+			sort.SliceStable(card.Transactions, func(i, j int) bool { return card.Transactions[i].Amount > card.Transactions[j].Amount })
 			return nil
 		}
 	}
+	return card.ErrorCardNotFound
 }

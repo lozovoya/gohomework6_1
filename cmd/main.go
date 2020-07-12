@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/lozovoya/gohomework6_1/pkg/card"
+	"github.com/lozovoya/gohomework6_1/pkg/operations"
 )
 
 func main() {
@@ -13,9 +14,20 @@ func main() {
 	penBank.AddCard("visa", 1_000_000_00, "rub", "http://...", "5106 2100 0000 0003")
 
 	for _, amount := range amounts {
-		err := penBank.AddTransaction("5106 2111 111 1116", amount, "1234")
+		err := penBank.AddTransaction("5106 2111 1111 1116", amount, "1234")
 		if err != nil {
 			fmt.Println(err)
 		}
 	}
+	fmt.Println("перед сортировкой:")
+	penBank.PrintTransactions("5106 2111 1111 1116")
+
+	err := operations.SortTransactions(&penBank, "5106 2111 1111 1116")
+	if err == nil {
+		fmt.Println("после сортировки:")
+		penBank.PrintTransactions("5106 2111 1111 1116")
+	} else {
+		fmt.Println(err)
+	}
+
 }

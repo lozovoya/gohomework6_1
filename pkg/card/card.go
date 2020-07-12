@@ -2,7 +2,7 @@ package card
 
 import (
 	"errors"
-	//"fmt"
+	"fmt"
 	"time"
 )
 
@@ -60,6 +60,18 @@ func (s *Service) AddTransaction(cardnumber string, amount int64, mcc string) er
 				TrTime: time.Now().Unix(),
 			}
 			cards.Transactions = append(cards.Transactions, transaction)
+			return nil
+		}
+	}
+	return ErrorCardNotFound
+}
+
+func (s *Service) PrintTransactions(cardnumber string) error {
+	for _, cards := range s.Cards {
+		if cards.Number == cardnumber {
+			for _, i := range cards.Transactions {
+				fmt.Println(i.Amount)
+			}
 			return nil
 		}
 	}
